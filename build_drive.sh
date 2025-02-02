@@ -1,5 +1,5 @@
 # Qt Paths
-QT_VERSION=6.8.1
+QT_VERSION=6.8.2
 QT_ROOT=~/Qt/$QT_VERSION
 QT_PLATFORM=$QT_ROOT/macos
 QT_BIN=$QT_PLATFORM/bin
@@ -18,8 +18,6 @@ INSTALL_PATH=$QT_PLATFORM
 
 mkdir $BUILD_PATH
 cd $BUILD_PATH
-# Bug 0: They said this bug will be fixed in 6.8.2. Use -no-sbom workaround for now.
-$QT_BIN/qt-configure-module $QT_SQLDRIVERS -no-sbom -sql-mysql -- -DMySQL_ROOT=$MySQL_ROOT
 # Bug 1: CMAKE_OSX_ARCHITECTURES=arm64 doesn't work, so we have to change it manually.
 #        The flag is added in case it's supported in the future.
 arch=$(arch)
