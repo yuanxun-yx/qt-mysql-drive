@@ -2,7 +2,7 @@
 
 setlocal
 
-set BuildDir=D:\build-sqldriver
+set BuildDir=%cd%\build-sqldriver
 
 set QtRoot=C:\Qt
 set QtVersion=%QtRoot%\6.8.2

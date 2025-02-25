@@ -11,7 +11,7 @@ MySQL_ROOT=/usr/local/mysql
 MySQL_INCLUDE=$MySQL_ROOT/include
 MySQL_LIBRARY=$MySQL_ROOT/lib/libmysqlclient.dylib
 
-BUILD_PATH=~/Documents/build-sqldriver
+BUILD_PATH=./build-sqldriver
 # If you want to install to PySide/PyQt, you can change this to
 # ~/anaconda3/envs/$env_name/lib/python$version/site-packages/PySide6/Qt
 INSTALL_PATH=$QT_PLATFORM
