@@ -18,16 +18,7 @@ INSTALL_PATH=$QT_PLATFORM
 
 mkdir $BUILD_PATH
 cd $BUILD_PATH
-# Bug 1: CMAKE_OSX_ARCHITECTURES=arm64 doesn't work, so we have to change it manually.
-#        The flag is added in case it's supported in the future.
-arch=$(arch)
-if [[ $arch =~ ^arm ]]; then
-  ARCH_FLAG=-DCMAKE_OSX_ARCHITECTURES=arm64
-fi
-$QT_BIN/qt-cmake -G Ninja $QT_SQLDRIVERS -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DMySQL_INCLUDE_DIR=$MySQL_INCLUDE -DMySQL_LIBRARY=$MySQL_LIBRARY $ARCH_FLAG
-if [[ $arch =~ ^arm ]]; then
-  sed -i -e 's/-arch x86_64/-arch arm64/g' ./build.ninja
-fi
+$QT_BIN/qt-cmake -G Ninja $QT_SQLDRIVERS -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DMySQL_INCLUDE_DIR=$MySQL_INCLUDE -DMySQL_LIBRARY=$MySQL_LIBRARY -DCMAKE_OSX_ARCHITECTURES=$(arch)
 cmake --build .
 # Bug 2: Link path for MySQL library is relative, which is incorrect.
 # find the real filename of mysql
