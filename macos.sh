@@ -1,5 +1,5 @@
 # Qt Paths
-QT_VERSION=6.8.2
+QT_VERSION=6.9.0
 QT_ROOT=~/Qt/$QT_VERSION
 QT_PLATFORM=$QT_ROOT/macos
 QT_BIN=$QT_PLATFORM/bin
@@ -18,10 +18,8 @@ INSTALL_PATH=$QT_PLATFORM
 
 mkdir $BUILD_PATH
 cd $BUILD_PATH
-$QT_BIN/qt-cmake -G Ninja $QT_SQLDRIVERS -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DMySQL_INCLUDE_DIR=$MySQL_INCLUDE -DMySQL_LIBRARY=$MySQL_LIBRARY -DCMAKE_OSX_ARCHITECTURES=$(arch)
+$QT_BIN/qt-cmake -G Ninja $QT_SQLDRIVERS -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DMySQL_INCLUDE_DIR=$MySQL_INCLUDE -DMySQL_LIBRARY=$MySQL_LIBRARY -DCMAKE_OSX_ARCHITECTURES=$(arch) -DQT_FORCE_MACOS_ALL_ARCHES=ON
 cmake --build .
-# Bug 2: Link path for MySQL library is relative, which is incorrect.
-# find the real filename of mysql
-MYSQL_LIB_FILENAME=$(basename $(realpath $MySQL_LIBRARY))
-install_name_tool -change @rpath/$MYSQL_LIB_FILENAME $MySQL_ROOT/lib/$MYSQL_LIB_FILENAME $BUILD_PATH/plugins/sqldrivers/libqsqlmysql.dylib
 cmake --install .
+# Bug 2: MySQL library is in @rpath after build, but not in install
+install_name_tool -add_rpath $MySQL_ROOT/lib $QT_PLATFORM/plugins/sqldrivers/libqsqlmysql.dylib
